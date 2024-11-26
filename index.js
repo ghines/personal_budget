@@ -1,19 +1,19 @@
 const express = require('express');
 const app = express();
-const employees = require('./Employees');
+const envelopes = require('./Envelopes.js');
 
 // retrieve all employees
-app.get('/api/employees', (req, res) => {
-    res.json(employees);
+app.get('/api/envelopes', (req, res) => {
+    res.json(envelopes);
 })
 
 // retrieve single employee
-app.get('/api/employees/:name', (req, res) => {   
-    if (employees.some(employee => employee.name === req.params.name)) {
-        res.json(employees.filter(employee => employee.name === req.params.name));
+app.get('/api/envelopes/:name', (req, res) => {   
+    if (envelopes.some(envelope => envelope.name === req.params.name)) {
+        res.json(envelopes.filter(envelope => envelope.name === req.params.name));
     } else {
         // 400 status = bad request
-        res.status(400).json({msg: `Employee ${req.params.name} does not exist`});
+        res.status(400).json({msg: `Envelope ${req.params.name} does not exist`});
     }
 })
 
