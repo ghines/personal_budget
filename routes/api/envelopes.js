@@ -39,7 +39,7 @@ router.put('/:name', (req, res) => {
         const updateEnvelope = req.body;
         envelopes.forEach(envelope => {
             if(envelope.name === req.params.name) {
-                envelope.name = updateEnvelope ? updateEmployee.name : envelope.name;
+                envelope.name = updateEnvelope ? updateEnvelope.name : envelope.name;
                 res.json({msg: `Envelope updated`, envelope});
             }
         })
