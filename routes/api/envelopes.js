@@ -5,7 +5,7 @@ const envelopes = require('../../Envelopes');
 // retrieve all envelopes
 router.get('/', (req, res) => {
     res.json(envelopes);
-})
+});
 
 // retrieve single envelope
 router.get('/:name', (req, res) => {   
@@ -15,7 +15,7 @@ router.get('/:name', (req, res) => {
         // 400 status = bad request
         res.status(400).json({msg: `Envelope ${req.params.name} does not exist`});
     }
-})
+});
 
 // create envelope
 router.post('/', (req, res) => {
@@ -32,5 +32,23 @@ router.post('/', (req, res) => {
     envelopes.push(newEnvelope);
     res.json(envelopes);
 });
+
+// update envelope list
+router.put('/:name', (req, res) => {
+    if (envelopes.some(envelope => envelope.name === req.params.name)) {
+        const updateEnvelope = req.body;
+        envelopes.forEach(envelope => {
+            if(envelope.name === req.params.name) {
+                envelope.name = updateEnvelope ? updateEmployee.name : envelope.name;
+                res.json({msg: `Envelope updated`, envelope});
+            }
+        })
+        res.json(envelopes.filter(envelope => envelope.name === req.params.name));
+    } else {
+        // 400 status = bad request
+        res.status(400).json({msg: `Envelope ${req.params.name} does not exist`});
+    }   
+});
+
 
 module.exports = router;
