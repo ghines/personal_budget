@@ -43,7 +43,19 @@ router.put('/:name', (req, res) => {
                 res.json({msg: `Envelope updated`, envelope});
             }
         })
-        res.json(envelopes.filter(envelope => envelope.name === req.params.name));
+    } else {
+        // 400 status = bad request
+        res.status(400).json({msg: `Envelope ${req.params.name} does not exist`});
+    }   
+});
+
+// delete envelope
+router.delete('/:name', (req, res) => {
+    if (envelopes.some(envelope => envelope.name === req.params.name)) {
+        res.json({
+            msg: `Envelope ${req.params.name} deleted`,
+            envelopes: envelopes.filter(envelope => envelope.name !== req.params.name)
+        });
     } else {
         // 400 status = bad request
         res.status(400).json({msg: `Envelope ${req.params.name} does not exist`});
