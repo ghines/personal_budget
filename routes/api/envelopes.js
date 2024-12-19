@@ -62,5 +62,29 @@ router.delete('/:name', (req, res) => {
     }   
 });
 
+// transfer from one envelope to another
+router.put('/transfer/:amount', (req, res) => {
+    // Parse and validate presence of amount, toAccount, and fromAccount
+    const amount = Number(req.params.amount);
+    if (!amount || isNaN(amount)) {
+        return res.status(400).send("Invalid or missing amount parameter.");
+    }
+
+    // Check if req.body contains the expected data
+    const { fromAccount, toAccount } = req.body;
+    if (!fromAccount || !toAccount) {
+        return res.status(400).send("Missing 'fromAccount' or 'toAccount' in the request body.");
+    }
+
+    const fromAccountIndex = envelopes.findIndex(envelope => envelope.name === fromAccount);
+    const toAccountIndex = envelopes.findIndex(envelope => envelope.name === toAccount);
+
+    envelopes[fromAccountIndex].allocatedAmount -= amount;
+    envelopes[toAccountIndex].allocatedAmount += amount;
+
+    res.send(`${amount} from ${fromAccount} -> ${toAccount}`);
+
+});
+
 
 module.exports = router;
