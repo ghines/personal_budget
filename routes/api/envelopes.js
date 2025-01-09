@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const envelopes = require('../../Envelopes');
+const db = require('../../queries');
 
 // retrieve all envelopes
-router.get('/', (req, res) => {
-    res.json(envelopes);
-});
+app.get('/', db.getEnvelopes);
 
 // retrieve single envelope
 router.get('/:name', (req, res) => {   
